@@ -39,13 +39,13 @@
         .hero-subtitle { font-size: 20px; letter-spacing: 3px; margin-bottom: 16px; display: block; color: #b57c6e; font-weight: 600; }
         h1 { font-size: 64px; margin-bottom: 20px; line-height: 1.2; }
         .hero-text { font-size: 18px; margin-bottom: 32px; opacity: 0.9; }
-        .hero-text br { display: block; }
         .hero-buttons { display: flex; gap: 20px; justify-content: center; margin-bottom: 48px; }
         .hero-stats { display: flex; justify-content: center; gap: 48px; flex-wrap: wrap; }
         .stat { font-size: 16px; background: rgba(255,255,240,0.85); padding: 8px 20px; border-radius: 40px; backdrop-filter: blur(4px); }
         .stat span { font-size: 28px; font-weight: 700; display: block; font-family: 'Cormorant Garamond', serif; }
         .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-        .about-image img { width: 100%; border-radius: 24px; box-shadow: 0 20px 30px -10px rgba(0,0,0,0.15); }
+        .about-image img { width: 100%; border-radius: 24px; box-shadow: 0 20px 30px -10px rgba(0,0,0,0.15); transition: none; cursor: default; }
+        .about-image img:hover { transform: none; }
         .about-list { list-style: none; margin: 24px 0; }
         .about-list li { margin-bottom: 12px; display: flex; align-items: center; gap: 12px; }
         .about-list i { color: #b57c6e; font-size: 20px; }
@@ -55,22 +55,67 @@
         .reason-card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
         .reason-card i { font-size: 48px; color: #b57c6e; margin-bottom: 20px; }
         .reason-card h3 { font-size: 24px; margin-bottom: 12px; }
+        
+        /* === СПЕЦЭФФЕКТЫ: фиксированная высота, object-fit: contain === */
         .effects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-bottom: 32px; }
         .effects-grid-bottom { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; max-width: 800px; margin: 0 auto; }
-        .effect-card { background: white; border-radius: 24px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s; text-align: center; }
+        .effect-card { background: white; border-radius: 24px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s; text-align: center; cursor: pointer; display: flex; flex-direction: column; }
         .effect-card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
-        .effect-card img { width: 100%; height: 220px; object-fit: cover; }
+        .effect-card img { 
+            width: 100%;
+            height: 280px;           /* единая высота для всех картинок */
+            object-fit: contain;     /* фото целиком, без обрезки, с сохранением пропорций */
+            background: #f5efe9;     /* фон для областей, не занятых фото (аккуратно) */
+            display: block;
+            transition: transform 0.3s;
+        }
+        .effect-card:hover img { transform: scale(1.02); }
         .effect-card h3 { font-size: 22px; margin: 20px 20px 10px; color: #3a2c29; }
         .effect-card p { padding: 0 20px 24px; font-size: 14px; color: #6b5a54; }
-        .gallery-slider, .video-slider { display: flex; gap: 30px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; padding: 20px 0 40px; }
-        .gallery-item { flex: 0 0 350px; overflow: hidden; border-radius: 20px; aspect-ratio: 1 / 0.9; scroll-snap-align: start; }
-        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
-        .gallery-item:hover img { transform: scale(1.05); }
-        .video-item { flex: 0 0 350px; border-radius: 20px; overflow: hidden; scroll-snap-align: start; background: #000; aspect-ratio: 16 / 9; }
-        .video-item iframe { width: 100%; height: 100%; border: none; }
+        
+        /* === ГАЛЕРЕЯ: фиксированная высота, object-fit: contain, никаких вертикальных рамок === */
+        .gallery-slider {
+            display: flex;
+            gap: 30px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            padding: 20px 0 40px;
+        }
+        .gallery-item {
+            flex: 0 0 auto;
+            width: 350px;
+            scroll-snap-align: start;
+            background: none;
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .gallery-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 400px;            /* единая высота для всех фото в галерее */
+            object-fit: contain;      /* фото вписывается целиком, без обрезки */
+            background: #f5efe9;      /* нейтральный фон для пустых областей */
+            display: block;
+            transition: transform 0.3s;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.02);
+        }
+        
+        .video-slider { display: flex; gap: 30px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; padding: 20px 0 40px; }
+        .video-item { flex: 0 0 350px; border-radius: 20px; overflow: hidden; scroll-snap-align: start; background: #000; height: 240px; transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer; }
+        .video-item:hover { transform: scale(1.02); box-shadow: 0 15px 30px rgba(0,0,0,0.2); }
+        .video-item iframe, .video-item video { width: 100%; height: 100%; border: none; object-fit: contain; background: black; }
+        
         .slider-controls, .gallery-controls { display: flex; justify-content: center; gap: 16px; margin-top: 16px; }
         .slider-btn, .gallery-btn { background: #b57c6e; color: white; border: none; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; transition: 0.2s; }
-        .slider-btn:hover, .gallery-btn:hover { background: #9b6255; }
+        .slider-btn:hover, .gallery-btn:hover { background: #9b6255; transform: scale(1.05); }
         .reviews-slider { display: flex; gap: 30px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; padding: 20px 0 40px; }
         .review-card { flex: 0 0 350px; background: white; padding: 32px; border-radius: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); scroll-snap-align: start; }
         .review-card i { font-size: 32px; color: #d9c2b4; margin-bottom: 16px; }
@@ -87,6 +132,60 @@
         .footer { background: #2d2a2a; color: #ddd; padding: 48px 0 24px; text-align: center; }
         .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 28px; color: #b57c6e; margin-bottom: 16px; }
         .footer-copy { margin-top: 32px; font-size: 14px; }
+        
+        /* LIGHTBOX */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+        }
+        .lightbox-content {
+            max-width: 90vw;
+            max-height: 90vh;
+            background: transparent;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .lightbox-content img, .lightbox-content video, .lightbox-content iframe {
+            max-width: 90vw;
+            max-height: 90vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 40px;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            background: rgba(0,0,0,0.5);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            z-index: 10001;
+        }
+        .lightbox-close:hover { transform: scale(1.1); background: #b57c6e; }
+        
         @media (max-width: 1200px) { .reasons-grid, .effects-grid, .effects-grid-bottom { grid-template-columns: repeat(2, 1fr); gap: 24px; } }
         @media (max-width: 768px) {
             h1 { font-size: 44px; } h2 { font-size: 32px; }
@@ -100,50 +199,13 @@
             .section { padding: 60px 0; }
             .hero { padding-top: 100px; }
             .reasons-grid, .effects-grid, .effects-grid-bottom { grid-template-columns: 1fr; gap: 20px; }
-            .gallery-item, .review-card, .video-item { flex: 0 0 280px; }
-        }
-      .video-item video {
-    width: 100%;
-    height: 100%;
-    display: block;
-    object-fit: contain;
-    background: black;
-}
-
-.video-item {
-    background: black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-        
-        /* === ДОБАВЛЯЕМ СТИЛИ ДЛЯ ВИДЕО === */
-        .video-container {
-            width: 100%;
-            max-width: 800px;
-            margin: 20px auto;
-            background: black;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        
-        video {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-        
-        /* Остальные ваши стили */
-        h1 {
-            color: #333;
-        }
-        
-        p {
-            line-height: 1.6;
+            .gallery-item { width: 280px; }
+            .gallery-item img { height: 320px; }  /* чуть меньше на мобильных */
+            .effect-card img { height: 220px; }
+            .video-item, .review-card { flex: 0 0 280px; }
+            .video-item { height: 180px; }
         }
     </style>
-     
-    
 </head>
 <body>
     <header class="header">
@@ -225,7 +287,7 @@
                 <p>Превратим ваш праздник в незабываемое шоу.<br>Профессиональное оборудование и эффекты высшего уровня.</p>
             </div>
             <div class="effects-grid">
-                <div class="effect-card"><img src="images/3.jpg"Генератор тяжелого дыма"><h3>Генератор тяжёлого дыма</h3><p>Эффектный низкий дым, который стелется по полу — создаёт атмосферу таинственности и торжественности.</p></div>
+                <div class="effect-card"><img src="images/3.jpg" alt="Генератор тяжелого дыма"><h3>Генератор тяжёлого дыма</h3><p>Эффектный низкий дым, который стелется по полу — создаёт атмосферу таинственности и торжественности.</p></div>
                 <div class="effect-card"><img src="images/4.jpg" alt="Холодные фонтаны"><h3>Холодные фонтаны</h3><p>Зрелищные искры без запаха и высокой температуры. Идеально для первого танца и вылета голубей.</p></div>
                 <div class="effect-card"><img src="images/9.jpg" alt="Светомузыка"><h3>Светомузыка и лазеры</h3><p>Полное световое шоу: от спокойного освещения до дискотеки. Настраиваем под каждый момент свадьбы.</p></div>
             </div>
@@ -269,24 +331,21 @@
                 <p>Посмотрите, как проходят наши свадьбы</p>
             </div>
             <div class="video-slider" id="videoSlider">
-              
-
-            <div class="video-item"> 
-    
-       <video controls preload="none">
-                <source src="video/jxutlc.mp4" type="video/mp4">
-                Ваш браузер не поддерживает видео 
-            </video> 
-        </div>
-                
-                <div class="video-item"><iframe src="video/0526.mp4" title="YouTube видео" allowfullscreen></iframe></div>
-                
+                <div class="video-item"> 
+                    <video controls preload="none">
+                        <source src="video/jxutlc.mp4" type="video/mp4">
+                        Ваш браузер не поддерживает видео 
+                    </video> 
+                </div>
+                <div class="video-item">
+                    <video controls preload="none">
+                        <source src="video/0526.mp4" type="video/mp4">
+                    </video>
+                </div>
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/F-oC-azP0hY?si=o1tGm1r5hwJJKc4n" title="YouTube видео" allowfullscreen></iframe></div>
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/tGgFzQ79B5A?si=3XcMOUFwiPwbGELX" title="YouTube видео" allowfullscreen></iframe></div>
                 <div class="video-item"><iframe src="https://www.youtube.com/embed/_Qw-Sj2qW3s?si=bqKcWm4X-L55tcKw" title="YouTube видео" allowfullscreen></iframe></div>
             </div>
-
-
             <div class="slider-controls">
                 <button class="slider-btn" id="prevVideoBtn"><i class="fas fa-chevron-left"></i></button>
                 <button class="slider-btn" id="nextVideoBtn"><i class="fas fa-chevron-right"></i></button>
@@ -351,38 +410,150 @@
         </div>
     </footer>
 
-   <script>
-    // Мобильное меню
-    var mobileBtn = document.getElementById('mobileMenuBtn');
-    var nav = document.querySelector('.nav');
-    
-    if (mobileBtn) {
-        mobileBtn.onclick = function() {
-            if (nav.classList.contains('active')) {
-                nav.classList.remove('active');
-                this.innerHTML = '<i class="fas fa-bars"></i>';
-            } else {
-                nav.classList.add('active');
-                this.innerHTML = '<i class="fas fa-times"></i>';
+    <div id="lightbox" class="lightbox">
+        <div class="lightbox-close">&times;</div>
+        <div class="lightbox-content" id="lightboxContent"></div>
+    </div>
+
+    <script>
+        (function() {
+            const mobileBtn = document.getElementById('mobileMenuBtn');
+            const nav = document.querySelector('.nav');
+            if (mobileBtn) {
+                mobileBtn.onclick = () => {
+                    nav.classList.toggle('active');
+                    mobileBtn.innerHTML = nav.classList.contains('active') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+                };
             }
-        };
-    }
-    
-    // Плавная прокрутка
-    var links = document.querySelectorAll('a[href^="#"]');
-    for (var i = 0; i < links.length; i++) {
-        links[i].onclick = function(e) {
-            var href = this.getAttribute('href');
-            if (href === "#" || href === "") return;
-            var target = document.querySelector(href);
-            if (target) {
-                e.preventDefault();
-                if (nav) nav.classList.remove('active');
-                if (mobileBtn) mobileBtn.innerHTML = '<i class="fas fa-bars"></i>';
-                target.scrollIntoView({ behavior: 'smooth' });
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href === "#" || href === "") return;
+                    const target = document.querySelector(href);
+                    if (target) {
+                        e.preventDefault();
+                        if (nav) nav.classList.remove('active');
+                        if (mobileBtn) mobileBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+
+            function initSliderButtons(sliderId, prevId, nextId) {
+                const slider = document.getElementById(sliderId);
+                if (!slider) return;
+                const prevBtn = document.getElementById(prevId);
+                const nextBtn = document.getElementById(nextId);
+                if (prevBtn) {
+                    prevBtn.addEventListener('click', () => {
+                        const item = slider.children[0];
+                        const gap = 30;
+                        const itemWidth = item ? item.offsetWidth + gap : 350;
+                        slider.scrollBy({ left: -itemWidth, behavior: 'smooth' });
+                    });
+                }
+                if (nextBtn) {
+                    nextBtn.addEventListener('click', () => {
+                        const item = slider.children[0];
+                        const gap = 30;
+                        const itemWidth = item ? item.offsetWidth + gap : 350;
+                        slider.scrollBy({ left: itemWidth, behavior: 'smooth' });
+                    });
+                }
             }
-        };
-    }
-</script>
+            initSliderButtons('gallerySlider', 'prevGalleryBtn', 'nextGalleryBtn');
+            initSliderButtons('videoSlider', 'prevVideoBtn', 'nextVideoBtn');
+            initSliderButtons('reviewsSlider', 'prevReviewBtn', 'nextReviewBtn');
+
+            const lightbox = document.getElementById('lightbox');
+            const lightboxContent = document.getElementById('lightboxContent');
+            const closeLightbox = document.querySelector('.lightbox-close');
+            
+            function openLightbox(mediaElement) {
+                lightbox.style.display = 'flex';
+                lightboxContent.innerHTML = '';
+                if (mediaElement.tagName === 'IMG') {
+                    const imgClone = document.createElement('img');
+                    imgClone.src = mediaElement.src;
+                    imgClone.alt = mediaElement.alt || '';
+                    lightboxContent.appendChild(imgClone);
+                }
+                else if (mediaElement.classList && mediaElement.classList.contains('video-item')) {
+                    const videoEl = mediaElement.querySelector('video');
+                    const iframeEl = mediaElement.querySelector('iframe');
+                    if (videoEl) {
+                        const newVideo = document.createElement('video');
+                        newVideo.controls = true;
+                        newVideo.autoplay = true;
+                        const source = videoEl.querySelector('source');
+                        if (source && source.src) {
+                            const newSource = document.createElement('source');
+                            newSource.src = source.src;
+                            newSource.type = source.type || 'video/mp4';
+                            newVideo.appendChild(newSource);
+                        } else if (videoEl.src) {
+                            newVideo.src = videoEl.src;
+                        } else {
+                            lightboxContent.appendChild(videoEl.cloneNode(true));
+                            const cloned = lightboxContent.querySelector('video');
+                            if(cloned) cloned.autoplay = true;
+                            return;
+                        }
+                        lightboxContent.appendChild(newVideo);
+                        newVideo.play().catch(e=>console.log('autoplay blocked',e));
+                    } 
+                    else if (iframeEl) {
+                        const iframe = document.createElement('iframe');
+                        let src = iframeEl.src;
+                        if (src.includes('youtube.com') || src.includes('youtu.be')) {
+                            src = src.split('?')[0] + '?autoplay=1&mute=0';
+                        }
+                        iframe.src = src;
+                        iframe.allowFullscreen = true;
+                        iframe.style.width = '80vw';
+                        iframe.style.height = '45vw';
+                        iframe.style.maxWidth = '90vw';
+                        iframe.style.maxHeight = '90vh';
+                        iframe.style.border = 'none';
+                        lightboxContent.appendChild(iframe);
+                    }
+                }
+            }
+            
+            document.querySelectorAll('.gallery-item').forEach(item => {
+                const img = item.querySelector('img');
+                if (img) {
+                    item.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        openLightbox(img);
+                    });
+                }
+            });
+            document.querySelectorAll('.effect-card img').forEach(img => {
+                img.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openLightbox(img);
+                });
+            });
+            document.querySelectorAll('.video-item').forEach(videoItem => {
+                videoItem.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openLightbox(videoItem);
+                });
+            });
+            
+            function closeLightboxFn() {
+                lightbox.style.display = 'none';
+                lightboxContent.innerHTML = '';
+            }
+            closeLightbox.addEventListener('click', closeLightboxFn);
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) closeLightboxFn();
+            });
+            
+            const aboutImg = document.querySelector('.about-image img');
+            if (aboutImg) aboutImg.addEventListener('click', (e) => e.stopPropagation());
+        })();
+    </script>
 </body>
 </html>
